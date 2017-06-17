@@ -1,13 +1,19 @@
+
+import evdev
+from evdev import *
+import os
+from socket import *
+import  gtk ,gobject
+
+buf=1024
+def receive():
+	# Receive data anytime. If no data, sleep / wait / do anything but return.
+	(data, addr) = UDPSock.recvfrom(buf)
+	return data
+
 #!/usr/bin/env python
 # fullScreenScale.py - Show image scaled to full screen
-# (c) Kimmo Karvinen & Tero Karvinen http://BotBook.com
 
-import gtk, os
-#
-# installation of pyscreenshot:
-
-import pyscreenshot as ImageGrab
-import gobject
 def fitRect(thing, box): 
 # scale 2
     scaleX=float(box.width)/thing.width
@@ -43,21 +49,29 @@ def getScreenShot():
 	image = ImageGrab.grab();
 	image.show();
 
-cnt=0
+host = ""
+port = 13000
+buf = 1024
+addr = (host, port)
+UDPSock = socket(AF_INET, SOCK_DGRAM)
+UDPSock.bind(addr)
+
+path="./image.jpg"
+def receiveAndSaveImage():
+    data=receive()
+    f=open("image.jpg","w")
+    try:
+        while(data):
+            f.write(data);
+            UDPSock.settimeout(2)
+            data=receive()
+    except timeout:
+        f.close()
+        print "done\n\n\n" 
+
 def callback():
-    global cnt
-    cnt+=1
-    """gtk.Image.set_from_file("./image0.jpg")
-    image=gtk.image_new_from_file("./image0.jpg")
-    print(type(image))
-    pix=gtk.Image.pixbuf_new_from_file(os.path.join("./", "image1.jpg")) 
-    window = gtk.Window()
-    window.connect("destroy", gtk.main_quit)
-    window.fullscreen() 
-    bg=newPix(gtk.gdk.screen_width(), gtk.gdk.screen_height())
-    #pixFitted=scaleToBg(pix, bg) 
-    gtk.Image.set_from_pixbuf(image) """
-    path="./image%s.jpg"%(cnt%2)
+    path="./image.jpg"
+    receiveAndSaveImage() 
     pix=gtk.gdk.pixbuf_new_from_file(os.path.join(path)) 
     window = gtk.Window()
     window.connect("destroy", gtk.main_quit)
@@ -67,9 +81,7 @@ def callback():
     image=gtk.image_new_from_pixbuf(pixFitted) 
     window.add(image)
     window.show_all()
-
-     
-    gobject.timeout_add(500,callback)
+    gobject.timeout_add(1000,callback)
 
 
 def main(): 
@@ -89,3 +101,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
