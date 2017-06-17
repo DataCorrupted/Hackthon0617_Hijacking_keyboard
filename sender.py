@@ -5,27 +5,31 @@ import os
 from socket import *
 
 print ("enter ifconig -a to find out your ip (inet addr)")
-host = "192.168.9.52" # set to IP address of target computer
+host = "192.168.9.141" # set to IP address of target computer
 port = 13000
 addr = (host, port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
 def send(event):
+	# make sure all events are keyboard.
+	if event.type != 1:
+		return
 	data=(str(event.code)+" "+str(event.value)).encode("UTF-8")
 	UDPSock.sendto(data, addr)
-	print(event);
+	print(event, "sent");
 
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 devices.reverse();
 for device in devices:
 	if "keyboard" in device.name:
 		break;
-print(device)
+print(device)	
 print();
 grabbed = False
 last = -1
 ui = UInput()
 
 for event in device.read_loop():
+	#print(categorize(event))
 	if grabbed:
 		send(event)
 	# Trace keyboard only.
