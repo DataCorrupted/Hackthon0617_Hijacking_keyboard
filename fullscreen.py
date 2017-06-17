@@ -13,7 +13,7 @@ import gtk, os
 # sudo pip install entrypoint2
 #
 import pyscreenshot as ImageGrab
-
+import gobject
 def fitRect(thing, box): 
 # scale 2
     scaleX=float(box.width)/thing.width
@@ -37,8 +37,7 @@ def scaleToBg(pix, bg):
         src_x=0, src_y=0,
         width=fit.width, height=fit.height, 
         dest_pixbuf=ret, 
-        dest_x=fit.x, dest_y=fit.y
-        )
+        dest_x=fit.x, dest_y=fit.y) 
     return ret 
 
 def newPix(width, height, color=0x000000ff): 
@@ -50,6 +49,35 @@ def getScreenShot():
 	image = ImageGrab.grab();
 	image.show();
 
+cnt=0
+def callback():
+    global cnt
+    cnt+=1
+    """gtk.Image.set_from_file("./image0.jpg")
+    image=gtk.image_new_from_file("./image0.jpg")
+    print(type(image))
+    pix=gtk.Image.pixbuf_new_from_file(os.path.join("./", "image1.jpg")) 
+    window = gtk.Window()
+    window.connect("destroy", gtk.main_quit)
+    window.fullscreen() 
+    bg=newPix(gtk.gdk.screen_width(), gtk.gdk.screen_height())
+    #pixFitted=scaleToBg(pix, bg) 
+    gtk.Image.set_from_pixbuf(image) """
+    path="./image%s.jpg"%(cnt%2)
+    pix=gtk.gdk.pixbuf_new_from_file(os.path.join(path)) 
+    window = gtk.Window()
+    window.connect("destroy", gtk.main_quit)
+    window.fullscreen() 
+    bg=newPix(gtk.gdk.screen_width(), gtk.gdk.screen_height())
+    pixFitted=scaleToBg(pix, bg) 
+    image=gtk.image_new_from_pixbuf(pixFitted) 
+    window.add(image)
+    window.show_all()
+
+     
+    gobject.timeout_add(500,callback)
+
+
 def main(): 
     pix=gtk.gdk.pixbuf_new_from_file(os.path.join("./", "image1.jpg")) 
     window = gtk.Window()
@@ -58,10 +86,11 @@ def main():
 
     bg=newPix(gtk.gdk.screen_width(), gtk.gdk.screen_height())
     pixFitted=scaleToBg(pix, bg) 
-
     image=gtk.image_new_from_pixbuf(pixFitted) 
     window.add(image)
     window.show_all()
+
+    gobject.timeout_add(1,callback)
     gtk.main()
 
 if __name__ == "__main__":
