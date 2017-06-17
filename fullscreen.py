@@ -37,7 +37,7 @@ def newPix(width, height, color=0x000000ff):
     return pix 
 
 def main(): 
-    pix=gtk.gdk.pixbuf_new_from_file(os.path.join("~/Desktop", "image1.jpg")) 
+    pix=gtk.gdk.pixbuf_new_from_file(os.path.join("./", "image1.jpg")) 
     window = gtk.Window()
     window.connect("destroy", gtk.main_quit)
     window.fullscreen() 
