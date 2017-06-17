@@ -4,16 +4,14 @@ from evdev import *
 import os
 from socket import *
 
-
-
+print ("enter ifconig -a to find out your ip (inet addr)")
+host = "192.168.9.31" # set to IP address of target computer
+port = 13000
+addr = (host, port)
+UDPSock = socket(AF_INET, SOCK_DGRAM)
 def send(event):
-	host = "192.168.18.219" # set to IP address of target computer
-	port = 13000
-	addr = (host, port)
-	UDPSock = socket(AF_INET, SOCK_DGRAM)
 	data=(str(event.code)+" "+str(event.value)).encode("UTF-8")
 	UDPSock.sendto(data, addr)
-	UDPSock.close()
 	print(event);
 	"""Inj = UInput()
 	Inj.write_event(event)
