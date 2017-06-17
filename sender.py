@@ -1,19 +1,34 @@
 
 import evdev
 from evdev import *
+import os
+from socket import *
+
+
 
 def send(event):
-
+	host = "192.168.9.31" # set to IP address of target computer
+	port = 13000
+	addr = (host, port)
+	UDPSock = socket(AF_INET, SOCK_DGRAM)
+	data=str(event.code)+" "+str(event.value)
+	UDPSock.sendto(data, addr)
+	UDPSock.close()
+	print(event);
+	"""Inj = UInput()
+	Inj.write_event(event)
+	Inj.syn()"""
 
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 devices.reverse();
 device = devices[3]
+print(device)
+print();
 grabbed = False
 last = -1
 ui = UInput()
 
 for event in device.read_loop():
-	#print(categorize(event))
 	if grabbed:
 		send(event)
 	# Trace keyboard only.
