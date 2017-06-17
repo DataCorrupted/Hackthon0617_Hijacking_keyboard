@@ -3,6 +3,16 @@
 # (c) Kimmo Karvinen & Tero Karvinen http://BotBook.com
 
 import gtk, os
+#
+# installation of pyscreenshot:
+#
+# sudo apt-get install python-pip
+# sudo apt-get install python-pil
+# sudo pip install pyscreenshot
+# sudo apt-get install scrot imagemagick python-gtk2 python-qt4 python-wxgtk2.8 python-pyside
+# sudo pip install entrypoint2
+#
+import pyscreenshot as ImageGrab
 
 def fitRect(thing, box): 
 # scale 2
@@ -35,6 +45,10 @@ def newPix(width, height, color=0x000000ff):
     pix=gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width , height) 
     pix.fill(color) 
     return pix 
+
+def getScreenShot():
+	image = ImageGrab.grab();
+	image.show();
 
 def main(): 
     pix=gtk.gdk.pixbuf_new_from_file(os.path.join("./", "image1.jpg")) 
