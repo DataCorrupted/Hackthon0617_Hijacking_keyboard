@@ -13,14 +13,13 @@ UDPSock.bind(addr)
 def receive():
 	# Receive data anytime. If no data, sleep / wait / do anything but return.
 	(data, addr) = UDPSock.recvfrom(buf)
-	data=data.split()
-        print data
+	data=map(int, data.split())
 	code=data[0]
 	value=data[1]
-	return (int(code), int(value))
+	return (code, value)
 
+Inj = UInput()
 while True:
 	(code, value) = receive()
-	Inj = UInput()
 	Inj.write(ecodes.EV_KEY, code, value)
 	Inj.syn();
