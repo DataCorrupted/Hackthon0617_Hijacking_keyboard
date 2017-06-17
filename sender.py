@@ -3,22 +3,17 @@ import evdev
 from evdev import *
 
 def send(event):
-	print(event);
-	Inj = UInput()
-	Inj.write_event(event)
-	Inj.syn()
+
 
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 devices.reverse();
 device = devices[3]
-print(device)
-print();
 grabbed = False
 last = -1
 ui = UInput()
 
 for event in device.read_loop():
-	print(categorize(event))
+	#print(categorize(event))
 	if grabbed:
 		send(event)
 	# Trace keyboard only.
