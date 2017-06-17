@@ -13,12 +13,11 @@ def send(event):
 	data=(str(event.code)+" "+str(event.value)).encode("UTF-8")
 	UDPSock.sendto(data, addr)
 	print(event);
-	"""Inj = UInput()
-	Inj.write_event(event)
-	Inj.syn()"""
 
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 devices.reverse();
+for device in devices:
+	print(device)
 device = devices[3]
 print(device)
 print();
