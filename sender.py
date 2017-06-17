@@ -7,11 +7,11 @@ from socket import *
 
 
 def send(event):
-	host = "192.168.9.31" # set to IP address of target computer
+	host = "192.168.18.219" # set to IP address of target computer
 	port = 13000
 	addr = (host, port)
 	UDPSock = socket(AF_INET, SOCK_DGRAM)
-	data=str(event.code)+" "+str(event.value)
+	data=(str(event.code)+" "+str(event.value)).encode("UTF-8")
 	UDPSock.sendto(data, addr)
 	UDPSock.close()
 	print(event);

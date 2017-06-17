@@ -17,7 +17,7 @@ def receive():
 	code=data[0]
 	value=data[1]
 	UDPSock.close()
-	return (code, value)
+	return (int(code), int(value))
 
 while True:
 	(code, value) = receive()
