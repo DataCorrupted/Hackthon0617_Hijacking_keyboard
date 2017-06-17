@@ -13,9 +13,9 @@ UDPSock.bind(addr)
 def receive():
 	# Receive data anytime. If no data, sleep / wait / do anything but return.
 	(data, addr) = UDPSock.recvfrom(buf)
-	data=map(int, data.split())
-	code=data[0]
-	value=data[1]
+	data=data.split()
+	code=int(data[0])
+	value=int(data[1])
 	return (code, value)
 
 Inj = UInput()
