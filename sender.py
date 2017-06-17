@@ -5,7 +5,7 @@ import os
 from socket import *
 
 print ("enter ifconig -a to find out your ip (inet addr)")
-host = "192.168.9.31" # set to IP address of target computer
+host = "192.168.9.52" # set to IP address of target computer
 port = 13000
 addr = (host, port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
@@ -17,8 +17,8 @@ def send(event):
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 devices.reverse();
 for device in devices:
-	print(device)
-device = devices[3]
+	if "keyboard" in device.name:
+		break;
 print(device)
 print();
 grabbed = False
