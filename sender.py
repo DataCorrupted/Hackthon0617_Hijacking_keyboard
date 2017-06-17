@@ -5,7 +5,7 @@ import os
 from socket import *
 
 print ("enter ifconig -a to find out your ip (inet addr)")
-host = "192.168.9.141" # set to IP address of target computer
+host = "192.168.9.52" # set to IP address of target computer
 port = 13000
 addr = (host, port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
