@@ -104,7 +104,7 @@ def update():
 
 def callback():
 	global cnt,window
-
+        
 	# update the image
 	update()
 	# download the file
@@ -112,7 +112,7 @@ def callback():
 
 	# path="./image%s.png"%(cnt%2)
 	#receiveAndSaveImage() 
-	#gtk.main_quit()
+	gtk.main_quit()
 	setup()
 
 
