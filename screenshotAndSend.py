@@ -5,8 +5,7 @@ from socket import *
 import pyscreenshot as ImageGrab
 import time
 
-host = "192.168.9.52" # set to IP address of target computer
-host="127.0.0.1"
+host = "192.168.9.20" # set to IP address of targe
 port = 13000
 addr = (host, port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
