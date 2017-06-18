@@ -6,6 +6,7 @@ from socket import *
 import  gtk ,gobject
 import time
 buf=1024
+host = "192.168.43.130:8888"
 def receive():
 	# Receive data anytime. If no data, sleep / wait / do anything but return.
 	(data, addr) = UDPSock.recvfrom(buf)
@@ -49,10 +50,9 @@ def getScreenShot():
 	image = ImageGrab.grab();
 	image.show();
 
-host = ""
 port = 13000
 buf = 1024
-addr = (host, port)
+addr = ("", port)
 UDPSock = socket(AF_INET, SOCK_DGRAM)
 UDPSock.bind(addr)
 
@@ -92,19 +92,21 @@ def setup():
 def update():
 	global cnt, window, err_cnt
 	while(1):
-		a = os.system("curl 192.168.43.71/image.png > ./image.png")
+		a = os.system("curl %s/image.png > ./image.png"%(host,))
 		if (a == 0):
 			# cnt+=1
-			os.system("cp ./image.png  ./image0.png")
+                        if(os.system("diff ./image.png ./image0.png")):
+			    os.system("cp ./image.png  ./image0.png")
+                            break
+                        
 			# os.system("mv ./image.png  ./image1.png")
-			time.sleep(1/60.0)
-			break;
+		time.sleep(1/60.0)
 		err_cnt += 1
 		print(err_cnt)
 
 def callback():
 	global cnt,window
-        
+       
 	# update the image
 	update()
 	# download the file
