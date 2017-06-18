@@ -72,6 +72,7 @@ cnt=0
 
 
 def setup():
+	global err_cnt
 	try:
 		pix=gtk.gdk.pixbuf_new_from_file(os.path.join("./image0.png")) 
 		window = gtk.Window()
@@ -83,19 +84,23 @@ def setup():
 		window.add(image)
 		window.show_all()
 	except:
+		err_cnt += 1
+		print(err_cnt)
 		update()
 		setup()
 
 def update():
-	global cnt, window
+	global cnt, window, err_cnt
 	while(1):
-		a = os.system("curl 192.168.9.20/image.png > ./image.png")
+		a = os.system("curl 192.168.43.71/image.png > ./image.png")
 		if (a == 0):
-			cnt+=1
+			# cnt+=1
 			os.system("cp ./image.png  ./image0.png")
-			os.system("mv ./image.png  ./image1.png")
-			time.sleep(1)
+			# os.system("mv ./image.png  ./image1.png")
+			time.sleep(1/60.0)
 			break;
+		err_cnt += 1
+		print(err_cnt)
 
 def callback():
 	global cnt,window
@@ -105,10 +110,12 @@ def callback():
 	# download the file
 	
 
-	path="./image%s.png"%(cnt%2)
+	# path="./image%s.png"%(cnt%2)
 	#receiveAndSaveImage() 
-	gtk.main_quit()
+	#gtk.main_quit()
 	setup()
+
+
 	# pix=gtk.gdk.pixbuf_new_from_file(os.path.join(path)) 
 	# bg=newPix(gtk.gdk.screen_width(), gtk.gdk.screen_height())
 	# pixFitted=scaleToBg(pix, bg) 
@@ -120,6 +127,8 @@ def callback():
 	gtk.main()
 
 def main(): 
+	global err_cnt
+	err_cnt = 0
 	setup()
 
 	gobject.timeout_add(1,callback)
